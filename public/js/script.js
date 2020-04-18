@@ -1,0 +1,1 @@
+console.log("get script from public folder.")
