@@ -1,1 +1,1 @@
-console.log("get script from public folder.")
+console.log('get script from public folder.');
