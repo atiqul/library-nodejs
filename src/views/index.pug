@@ -1,0 +1,11 @@
+html
+    head
+        title My Library app
+        link(rel="stylesheet", href='css/style.css')
+    body(class=['myClass'])
+        h1(id='myId')= title
+        p 
+            h3 Sub header
+            ul
+                each val in list
+                    li=val
