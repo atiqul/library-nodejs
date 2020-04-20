@@ -11,6 +11,7 @@
   "author": "Atiqul Alam",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.4.1",
     "chalk": "^4.0.0",
     "debug": "^4.1.1",
     "ejs": "^3.0.2",
