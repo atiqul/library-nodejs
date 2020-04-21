@@ -100,13 +100,13 @@ function router(nav) {
         .get((req, res) => {
             (async function query() {
                 const request = new sql.Request();
-                const result = await request.query('select * from books');
+                const { recordset } = await request.query('select * from books');
                 res.render(
                     'books',
                     {
                         title: 'Books List',
                         nav,
-                        books: result.recordset
+                        books: recordset
                     }
                 )
             }());
@@ -118,15 +118,14 @@ function router(nav) {
             (async function query() {
                 const { id } = req.params;
                 const request = new sql.Request();
-                const result = await request.input('id', sql.Int, id)
+                const { recordset } = await request.input('id', sql.Int, id)
                     .query('select * from books where id=@id');
-                debug(result)
                 res.render(
                     'book',
                     {
                         title: 'Book Details',
                         nav,
-                        book: result.recordset[0]
+                        book: recordset[0]
                     }
                 )
             }());
