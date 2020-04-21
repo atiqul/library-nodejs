@@ -98,11 +98,9 @@ function router(nav) {
     ]
     bookRouter.route('/books')
         .get((req, res) => {
-            var request = new sql.Request();
-            request.query('select * from books')
-            .then(result => {
-                debug("this success for sql query");
-                debug(result);
+            (async function query(){
+                const request = new sql.Request();
+                const result  = await request.query('select * from books');
                 res.render(
                     'books',
                     {
@@ -110,9 +108,8 @@ function router(nav) {
                         nav,
                         books: result.recordset
                     }
-                )
-            })
-            .catch(err=>debug(err))
+                )                
+            }());   
                 
         });
 
