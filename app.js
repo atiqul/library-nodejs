@@ -6,7 +6,12 @@ const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const bookRouter = require('./src/routes/bookRoutes');
+const nav = [
+	{ link: '/books', title: 'Books' },
+	{ link: '/authors', title: 'Authors' }
+];
+
+const bookRouter = require('./src/routes/bookRoutes')(nav);
 const authorRouter = express.Router();
 
 app.use(morgan('tiny'));
@@ -17,7 +22,7 @@ app.set('view engine', 'ejs');
 
 
 authorRouter.route('/authors')
-	.get((req, res)=>{
+	.get((req, res) => {
 		res.send("Hello authors");
 	})
 
@@ -25,11 +30,11 @@ app.use('/', authorRouter, bookRouter);
 app.get('/', function (req, res) {
 	// res.sendFile(path.join(__dirname,'views/index.html'));
 	res.render(
-		'index', 
-		{ 
-			title: 'Library', 
-			nav: [{link:'books', title:'Books'},
-			{link:'authors', title: 'Authors'}] 
+		'index',
+		{
+			title: 'Library',
+			nav: [{ link: 'books', title: 'Books' },
+			{ link: 'authors', title: 'Authors' }]
 		}
 	);
 });
