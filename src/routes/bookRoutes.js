@@ -98,9 +98,9 @@ function router(nav) {
     ]
     bookRouter.route('/books')
         .get((req, res) => {
-            (async function query(){
+            (async function query() {
                 const request = new sql.Request();
-                const result  = await request.query('select * from books');
+                const result = await request.query('select * from books');
                 res.render(
                     'books',
                     {
@@ -108,22 +108,28 @@ function router(nav) {
                         nav,
                         books: result.recordset
                     }
-                )                
-            }());   
-                
+                )
+            }());
+
         });
 
     bookRouter.route('/books/:id')
         .get((req, res) => {
-            const { id } = req.params;
-            res.render(
-                'book',
-                {
-                    title: 'Book Details',
-                    nav,
-                    book: books[id]
-                }
-            )
+            (async function query() {
+                const { id } = req.params;
+                const request = new sql.Request();
+                const result = await request.input('id', sql.Int, id)
+                    .query('select * from books where id=@id');
+                debug(result)
+                res.render(
+                    'book',
+                    {
+                        title: 'Book Details',
+                        nav,
+                        book: result.recordset[0]
+                    }
+                )
+            }());
         })
     return bookRouter;
 }
