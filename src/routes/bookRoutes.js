@@ -1,7 +1,11 @@
 const express = require('express');
+const sql = require('mssql/msnodesqlv8');
+const debug = require('debug')('app:bookRoutes')
+
 const bookRouter = express.Router();
 
 function router(nav) {
+    debug("this is book router");
     const books = [
         {
             "isbn": "9781593275846",
@@ -94,14 +98,22 @@ function router(nav) {
     ]
     bookRouter.route('/books')
         .get((req, res) => {
-            res.render(
-                'books',
-                {
-                    title: 'Books List',
-                    nav,
-                    books
-                }
-            )
+            var request = new sql.Request();
+            request.query('select * from books')
+            .then(result => {
+                debug("this success for sql query");
+                debug(result);
+                res.render(
+                    'books',
+                    {
+                        title: 'Books List',
+                        nav,
+                        books: result.recordset
+                    }
+                )
+            })
+            .catch(err=>debug(err))
+                
         });
 
     bookRouter.route('/books/:id')
